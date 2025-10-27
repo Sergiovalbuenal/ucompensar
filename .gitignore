@@ -1,0 +1,34 @@
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Archivos temporales
+*.tmp
+*.bak
+*.log
+
+# Node modules (si se usa npm)
+node_modules/
+
+# Archivos de configuración local
+.env
+.env.local
+
+# Source maps (opcional, pero útil para debugging)
+# *.css.map
+
+# Archivos de compilación temporal
+.sass-cache/
+*.sassc
+
+# Archivos de respaldo
+*~
+*.orig

@@ -1,0 +1,215 @@
+@use "sass:color";
+
+//Variable para el color de fondo principal
+$color-fondo-principal: #0a0e27;
+
+//Variable para el color de acento (dorado/amarillo)
+$color-acento: #ffc107;
+
+//Variable para el espaciado entre tarjetas
+$espaciado-base: 56px;
+
+//Variable para el tiempo de transición
+$tiempo-transicion: 0.3s;
+
+//Variable para el color de fondo de las tarjetas
+$color-fondo-tarjeta: rgba(255, 255, 255, 0.1);
+
+$color-success: #28a745;
+$color-primario: #0d6efd;
+$sombra-base: 0 10px 20px rgba(0, 0, 0, 0.3);
+$border-radius-grande: 15px;
+$border-radius-mediano: 10px;
+
+
+body {
+    padding-top: $espaciado-base;
+    background-color: $color-fondo-principal;
+}
+
+// ANIDACIÓN DE SELECTORES - Card
+.card {
+    transition: transform $tiempo-transicion ease, box-shadow $tiempo-transicion ease;
+    cursor: pointer;
+    
+    // Selector anidado para hover
+    &:hover {
+        transform: translateY(-10px);
+        box-shadow: $sombra-base;
+    }
+}
+
+// ANIDACIÓN - Calificación
+.calificacion {
+    color: $color-acento;
+    font-size: 1.2rem;
+}
+
+// ANIDACIÓN - Vista detalle
+.vista-detalle {
+    display: none;
+    animation: fadeIn 0.5s ease;
+    
+    // Selector anidado para cuando está activa
+    &.activa {
+        display: block;
+    }
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// ANIDACIÓN - Hero detalle
+.hero-detalle {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 40px;
+    border-radius: $border-radius-grande;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+// ANIDACIÓN - Tarjeta actor
+.tarjeta-actor {
+    background: $color-fondo-tarjeta;
+    padding: 20px;
+    border-radius: $border-radius-mediano;
+    text-align: center;
+    transition: all $tiempo-transicion ease;
+    
+    // Selector anidado para hover
+    &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-5px);
+    }
+}
+
+// ANIDACIÓN - Sección comentarios
+.seccion-comentarios {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    border-radius: $border-radius-grande;
+    margin-top: 30px;
+}
+
+// ANIDACIÓN - Comentario individual
+.comentario {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: $border-radius-mediano;
+    margin-bottom: 15px;
+    border-left: 4px solid $color-primario;
+}
+
+// INTERPOLACIÓN 1: Generar clases dinámicas para alertas
+$tipos-alerta: (
+    'exito': $color-success,
+    'info': #17a2b8,
+    'advertencia': #ffc107,
+    'peligro': #dc3545
+);
+
+@each $tipo, $color in $tipos-alerta {
+    .alerta-#{$tipo} {
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        background: $color;
+        color: white;
+        padding: 15px 25px;
+        border-radius: $border-radius-mediano;
+        display: none;
+        z-index: 9999;
+        animation: slideIn 0.5s ease;
+        box-shadow: 0 5px 15px rgba($color, 0.4);
+    }
+}
+
+// INTERPOLACIÓN 2: Generar clases para diferentes tamaños de badge
+$tamanios-badge: (
+    'pequeño': 8px,
+    'mediano': 10px,
+    'grande': 12px
+);
+
+@each $tamanio, $padding in $tamanios-badge {
+    .badge-rating-#{$tamanio} {
+        position: absolute;
+        top: $padding;
+        right: $padding;
+        background: rgba(0, 0, 0, 0.8);
+        padding: $padding ($padding + 4px);
+        border-radius: 20px;
+        font-size: 0.9rem;
+        z-index: 10;
+    }
+}
+
+
+.badge-rating {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    z-index: 10;
+}
+
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+
+
+.estado-vacio {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6c757d;
+    
+    // Anidación para el ícono
+    i {
+        font-size: 4rem;
+        margin-bottom: 20px;
+    }
+}
+
+
+// MIXIN para crear sombras reutilizables
+@mixin sombra-custom($color, $opacidad: 0.3) {
+    box-shadow: 0 10px 20px rgba($color, $opacidad);
+}
+
+// Uso del mixin
+.tarjeta-especial {
+    @include sombra-custom(#0d6efd, 0.4);
+}
+
+// FUNCIÓN para ajustar brillo de colores (usando color.scale moderno)
+@function ajustar-brillo($color, $porcentaje) {
+    @return color.scale($color, $lightness: $porcentaje * 1%);
+}
+
+// Uso de la función
+.tarjeta-hover-especial {
+    &:hover {
+        background: ajustar-brillo($color-fondo-tarjeta, 5);
+    }
+}
