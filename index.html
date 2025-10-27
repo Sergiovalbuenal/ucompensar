@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCompensar - Reseñas de Marvel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-dark text-white">
+
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top shadow">       
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#" onclick="mostrarInicio()">
+                <h2 >UCompensar</h2>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="mostrarInicio()">
+                            <i class="bi bi-house-door"></i> Inicio
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#peliculas">
+                            <i class="bi bi-collection-play"></i> Películas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://wa.me/573156702607" target="_blank">
+                        <i class="bi bi-whatsapp"></i> Contacto
+                         </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="alerta-exito" class="alerta-exito">
+        <i class="bi bi-check-circle"></i> ¡Comentario publicado exitosamente!
+    </div>
+
+    <!-- VISTA PRINCIPAL -->
+     
+    <div id="vista-inicio">
+        <!-- Buscador -->
+        <nav class="navbar bg-body-tertiary mt-3 pt-3 pb-4">
+            <div class="container-fluid bg-body-tertiary">
+                <a class="navbar-brand text-dark">Buscar Películas</a>
+                <div class="d-flex gap-2 flex-wrap">
+                    <input class="form-control" type="search" placeholder="Buscar por título..." 
+                           id="campoBusqueda" onkeyup="filtrarPeliculas()" style="width: 250px;"/>
+                    <select class="form-select" id="filtroAño" onchange="filtrarPeliculas()" style="width: 150px;">
+                        <option value="">Todos los años</option>
+                        <option value="2008">2008</option>
+                        <option value="2010">2010</option>
+                        <option value="2011">2011</option>
+                        <option value="2012">2012</option>
+                        <option value="2017">2017</option>
+                        <option value="2019">2019</option>
+                    </select>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Carousel -->
+
+        <div class="container-fluid mt-4">
+            <div id="carouselExample" class="carousel slide shadow-lg" data-bs-ride="carousel">
+                <div class="carousel-inner rounded">
+                    <div class="carousel-item active">
+                        <img src="img/carousel0.webp" 
+                             class="d-block w-100 img-fluid" 
+                             alt="Marvel Carousel 1"
+                             style="max-height: 500px; height: auto; object-fit: cover; object-position: center;">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="img/carousel1.jpg" 
+                             class="d-block w-100 img-fluid" 
+                             alt="Marvel Carousel 2"
+                             style="max-height: 500px; height: auto; object-fit: cover; object-position: center;">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="img/carousel2.jpg" 
+                             class="d-block w-100 img-fluid" 
+                             alt="Marvel Carousel 3"
+                             style="max-height: 500px; height: auto; object-fit: cover; object-position: center;">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tarjetas de Películas -->
+
+        <div class="container" id="peliculas">
+            <h1 class="mt-5 mb-4 text-center">Películas de Marvel</h1>
+            
+            <div class="row g-4" id="listaPeliculas">
+                
+            </div>
+
+            <div id="estadoVacio" class="estado-vacio" style="display: none;">
+                <i class="bi bi-search"></i>
+                <h3>No se encontraron películas</h3>
+                <p>Intenta con otros criterios de búsqueda</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- VISTA DE DETALLE -->
+
+    <div id="vista-detalle" class="vista-detalle container mt-5">
+        <button class="btn btn-outline-light mb-4" onclick="mostrarInicio()">
+            <i class="bi bi-arrow-left-circle"></i> Volver al inicio
+        </button>
+        
+        <div class="hero-detalle" id="contenidoDetalle"></div>
+        
+        <div class="seccion-comentarios">
+            <h3 class="mb-4">
+                <i class="bi bi-chat-dots-fill"></i> Comentarios y Reseñas
+            </h3>
+            <div class="mb-4">
+                <textarea class="form-control mb-3 bg-dark text-white border-secondary" id="textoComentario" rows="4" 
+                          placeholder="Comparte tu opinion sobre esta pelicula..."></textarea>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control bg-dark text-white border-secondary" id="nombreComentario" 
+                               placeholder="Tu nombre completo">
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-select bg-dark text-white border-secondary" id="calificacionComentario">
+                            <option value="5">⭐⭐⭐⭐⭐ Excelente (5/5)</option>
+                            <option value="4">⭐⭐⭐⭐ Muy buena (4/5)</option>
+                            <option value="3">⭐⭐⭐ Buena (3/5)</option>
+                            <option value="2">⭐⭐ Regular (2/5)</option>
+                            <option value="1">⭐ Mala (1/5)</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="agregarComentario()">
+                    <i class="bi bi-send-fill"></i> Publicar Comentario
+                </button>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
+            <div id="listaComentarios"></div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+        <div class="container">
+            <p class="mb-2">&copy; 2025 UCompensar - Sergio Valbuena</p>
+            <p >Desarrollo de Software Web Frontend</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const peliculas = [
+            {
+                titulo: "Capitán América: El primer vengador",
+                año: 2011,
+                calificacion: 4.2,
+                imagen: "img/card1.avif",
+                sinopsis: "Ambientada en la Segunda Guerra Mundial, Steve Rogers se convierte en el super soldado conocido como Capitán América para luchar contra HYDRA. Un héroe débil que se transforma en el símbolo de la esperanza para toda una nación.",
+                director: "Joe Johnston",
+                duracion: "124 minutos",
+                genero: "Acción, Aventura, Ciencia Ficción",
+                actores: [
+                    {nombre: "Chris Evans", papel: "Steve Rogers / Capitán América"},
+                    {nombre: "Hayley Atwell", papel: "Peggy Carter"},
+                    {nombre: "Sebastian Stan", papel: "Bucky Barnes"},
+                    {nombre: "Tommy Lee Jones", papel: "Coronel Phillips"}
+                ]
+            },
+            {
+                titulo: "Capitana Marvel",
+                año: 2019,
+                calificacion: 4.4,
+                imagen: "img/card2.avif",
+                sinopsis: "Situada en los años 90, Carol Danvers se convierte en una de las heroínas más poderosas del universo mientras intenta mediar en un conflicto entre razas alienígenas. Descubre su verdadero pasado y su increíble poder.",
+                director: "Anna Boden, Ryan Fleck",
+                duracion: "123 minutos",
+                genero: "Acción, Aventura, Ciencia Ficción",
+                actores: [
+                    {nombre: "Brie Larson", papel: "Carol Danvers / Capitana Marvel"},
+                    {nombre: "Samuel L. Jackson", papel: "Nick Fury"},
+                    {nombre: "Ben Mendelsohn", papel: "Talos"},
+                    {nombre: "Jude Law", papel: "Yon-Rogg"}
+                ]
+            },
+            {
+                titulo: "Iron Man",
+                año: 2008,
+                calificacion: 4.6,
+                imagen: "img/card3.avif",
+                sinopsis: "La película que dio inicio al UCM. Tony Stark se convierte en Iron Man después de ser capturado y construir una armadura tecnológica para escapar. Un genio millonario que descubre que sus armas están siendo usadas para el mal.",
+                director: "Jon Favreau",
+                duracion: "126 minutos",
+                genero: "Acción, Aventura, Ciencia Ficción",
+                actores: [
+                    {nombre: "Robert Downey Jr.", papel: "Tony Stark / Iron Man"},
+                    {nombre: "Gwyneth Paltrow", papel: "Pepper Potts"},
+                    {nombre: "Jeff Bridges", papel: "Obadiah Stane"},
+                    {nombre: "Terrence Howard", papel: "James Rhodes"}
+                ]
+            },
+            {
+                titulo: "Iron Man 2",
+                año: 2010,
+                calificacion: 4.1,
+                imagen: "img/card4.avif",
+                sinopsis: "Tony Stark enfrenta nuevos enemigos mientras el gobierno exige que entregue su tecnología de armadura. Aparecen Viuda Negra y War Machine. El mundo ahora sabe que Tony Stark es Iron Man, y todos quieren esa tecnología.",
+                director: "Jon Favreau",
+                duracion: "124 minutos",
+                genero: "Acción, Aventura, Ciencia Ficción",
+                actores: [
+                    {nombre: "Robert Downey Jr.", papel: "Tony Stark / Iron Man"},
+                    {nombre: "Scarlett Johansson", papel: "Natasha Romanoff"},
+                    {nombre: "Mickey Rourke", papel: "Ivan Vanko"},
+                    {nombre: "Don Cheadle", papel: "James Rhodes"}
+                ]
+            },
+            {
+                titulo: "El Increíble Hulk",
+                año: 2008,
+                calificacion: 3.9,
+                imagen: "img/card5.avif",
+                sinopsis: "Bruce Banner busca una cura para su transformación en Hulk mientras huye del ejército y enfrenta a Abominación, un enemigo aún más poderoso. Una lucha por controlar el monstruo interior.",
+                director: "Louis Leterrier",
+                duracion: "112 minutos",
+                genero: "Acción, Aventura, Ciencia Ficción",
+                actores: [
+                    {nombre: "Edward Norton", papel: "Bruce Banner / Hulk"},
+                    {nombre: "Liv Tyler", papel: "Betty Ross"},
+                    {nombre: "Tim Roth", papel: "Emil Blonsky"},
+                    {nombre: "William Hurt", papel: "General Ross"}
+                ]
+            },
+            {
+                titulo: "Thor",
+                año: 2011,
+                calificacion: 4.3,
+                imagen: "img/car6.avif",
+                sinopsis: "El poderoso dios del trueno es desterrado a la Tierra por su padre Odín para aprender humildad. Debe demostrar que es digno de empuñar su martillo Mjolnir y salvar tanto Asgard como la Tierra.",
+                director: "Kenneth Branagh",
+                duracion: "115 minutos",
+                genero: "Acción, Aventura, Fantasía",
+                actores: [
+                    {nombre: "Chris Hemsworth", papel: "Thor"},
+                    {nombre: "Natalie Portman", papel: "Jane Foster"},
+                    {nombre: "Tom Hiddleston", papel: "Loki"},
+                    {nombre: "Anthony Hopkins", papel: "Odín"}
+                ]
+            },
+            {
+                titulo: "Los Vengadores",
+                año: 2012,
+                calificacion: 4.7,
+                imagen: "img/card7.avif",
+                sinopsis: "Nick Fury reúne a Iron Man, Capitán América, Thor, Hulk, Viuda Negra y Ojo de Halcón para formar el equipo de los Vengadores y detener a Loki. El evento cinematográfico que cambió todo.",
+                director: "Joss Whedon",
+                duracion: "143 minutos",
+                genero: "Acción, Aventura, Ciencia Ficción",
+                actores: [
+                    {nombre: "Robert Downey Jr.", papel: "Tony Stark / Iron Man"},
+                    {nombre: "Chris Evans", papel: "Steve Rogers / Capitán América"},
+                    {nombre: "Chris Hemsworth", papel: "Thor"},
+                    {nombre: "Mark Ruffalo", papel: "Bruce Banner / Hulk"}
+                ]
+            },
+            {
+                titulo: "Guardianes de la Galaxia Vol. 2",
+                año: 2017,
+                calificacion: 4.5,
+                imagen: "img/card8.avif",
+                sinopsis: "Los Guardianes continúan sus aventuras por el cosmos. Peter Quill finalmente conoce a su padre Ego mientras enfrentan nuevas amenazas. Música épica y diversión galáctica.",
+                director: "James Gunn",
+                duracion: "136 minutos",
+                genero: "Acción, Aventura, Comedia",
+                actores: [
+                    {nombre: "Chris Pratt", papel: "Peter Quill / Star-Lord"},
+                    {nombre: "Zoe Saldana", papel: "Gamora"},
+                    {nombre: "Dave Bautista", papel: "Drax"},
+                    {nombre: "Bradley Cooper", papel: "Rocket (voz)"}
+                ]
+            }
+        ];
+
+        let comentarios = {
+            0: [{nombre: "Sergio Valbuena", texto: "Excelente pelicula.", calificacion: 5, fecha: "07/10/2025"}],
+            1: [],
+            2: [],
+            3: [],
+            4: [],
+            5: [],
+            6: [],
+            7: [],
+        };
+
+        let peliculaActual = 0;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            generarTarjetas();
+        });
+
+        function generarTarjetas() {
+            const contenedor = document.getElementById('listaPeliculas');
+            contenedor.innerHTML = '';
+            
+            peliculas.forEach((pelicula, index) => {
+                const estrellas = generarEstrellas(pelicula.calificacion);
+                
+                const tarjeta = `
+                    <div class="col-lg-3 col-md-4 col-sm-6" data-año="${pelicula.año}" data-calificacion="${pelicula.calificacion}" data-titulo="${pelicula.titulo.toLowerCase()}">
+                        <div class="card h-100 bg-dark text-white border-secondary" onclick="mostrarDetalle(${index})">
+                            <div class="position-relative">
+                                <img src="${pelicula.imagen}" class="card-img-top" alt="${pelicula.titulo}">
+                                <span class="badge-rating text-white">
+                                    <i class="bi bi-star-fill text-warning"></i> ${pelicula.calificacion}
+                                </span>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">${pelicula.titulo}</h5>
+                                <span class="badge bg-primary mb-2 align-self-start">${pelicula.año}</span>
+                                <div class="calificacion mb-3">
+                                    ${estrellas}
+                                </div>
+                                <p class="card-text flex-grow-1">${pelicula.sinopsis.substring(0, 100)}...</p>
+                                <button class="btn btn-primary mt-auto w-100">
+                                    Ver Detalles <i class="bi bi-arrow-right-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                contenedor.innerHTML += tarjeta;
+            });
+        }
+
+        function generarEstrellas(calificacion) {
+            let estrellas = '';
+            for(let i = 0; i < 5; i++) {
+                if (i < Math.floor(calificacion)) {
+                    estrellas += '<i class="bi bi-star-fill"></i>';
+                } else if (i < calificacion) {
+                    estrellas += '<i class="bi bi-star-half"></i>';
+                } else {
+                    estrellas += '<i class="bi bi-star"></i>';
+                }
+            }
+            return estrellas;
+        }
+
+        function mostrarInicio() {
+            document.getElementById('vista-inicio').style.display = 'block';
+            document.getElementById('vista-detalle').classList.remove('activa');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function mostrarDetalle(indice) {
+            const pelicula = peliculas[indice];
+            peliculaActual = indice;
+            
+            document.getElementById('vista-inicio').style.display = 'none';
+            document.getElementById('vista-detalle').classList.add('activa');
+            
+            const estrellas = generarEstrellas(pelicula.calificacion);
+            
+            document.getElementById('contenidoDetalle').innerHTML = `
+                <div class="row">
+                    <div class="col-12">
+                        <h1 class="display-4 fw-bold mb-3">${pelicula.titulo}</h1>
+                        <div class="calificacion mb-4">${estrellas} <span class="ms-2">${pelicula.calificacion}/5</span></div>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="p-3 bg-dark  rounded">
+                            <p class="mb-1"><strong><i class="bi bi-calendar-event"></i> Año:</strong></p>
+                            <p  mb-0">${pelicula.año}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="p-3 bg-dark  rounded">
+                            <p class="mb-1"><strong><i class="bi bi-person-circle"></i> Director:</strong></p>
+                            <p  mb-0">${pelicula.director}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="p-3 bg-dark  rounded">
+                            <p class="mb-1"><strong><i class="bi bi-clock-history"></i> Duración:</strong></p>
+                            <p  mb-0">${pelicula.duracion}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="p-3 bg-dark  rounded">
+                            <p class="mb-1"><strong><i class="bi bi-film"></i> Género:</strong></p>
+                            <p  mb-0">${pelicula.genero}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <h4 class="mb-3"><i class="bi bi-bookmark-star"></i> Sinopsis</h4>
+                    <p class="lead">${pelicula.sinopsis}</p>
+                </div>
+                
+                <div>
+                    <h4 class="mb-4"><i class="bi bi-people-fill"></i> Elenco Principal</h4>
+                    <div class="row">
+                        ${pelicula.actores.map(actor => `
+                            <div class="col-6 col-md-3 mb-3">
+                                <div class="tarjeta-actor">
+                                    <div class="fw-bold">${actor.nombre}</div>
+                                    <small  d-block mt-2">${actor.papel}</small>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            cargarComentarios(indice);
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function filtrarPeliculas() {
+            const terminoBusqueda = document.getElementById('campoBusqueda').value.toLowerCase();
+            const filtroAño = document.getElementById('filtroAño').value;
+            
+            let tarjetasPeliculas = Array.from(document.querySelectorAll('#listaPeliculas > div'));
+            let peliculasVisibles = 0;
+            
+            tarjetasPeliculas.forEach(tarjeta => {
+                const titulo = tarjeta.dataset.titulo;
+                const año = tarjeta.dataset.año;
+                const coincideBusqueda = titulo.includes(terminoBusqueda);
+                const coincideAño = !filtroAño || año === filtroAño;
+                
+                if (coincideBusqueda && coincideAño) {
+                    tarjeta.style.display = 'block';
+                    peliculasVisibles++;
+                } else {
+                    tarjeta.style.display = 'none';
+                }
+            });
+            
+            document.getElementById('estadoVacio').style.display = peliculasVisibles === 0 ? 'block' : 'none';
+        }
+
+        function agregarComentario() {
+            const texto = document.getElementById('textoComentario').value.trim();
+            const nombre = document.getElementById('nombreComentario').value.trim();
+            const calificacion = document.getElementById('calificacionComentario').value;
+            
+            if (!texto || !nombre) {
+                alert('Por favor completa todos los campos antes de publicar tu comentario.');
+                return;
+            }
+            
+            if (texto.length < 10) {
+                alert('Tu comentario debe tener al menos 10 caracteres.');
+                return;
+            }
+            
+            if (!comentarios[peliculaActual]) {
+                comentarios[peliculaActual] = [];
+            }
+            
+            const fechaActual = new Date();
+            const fechaFormateada = fechaActual.toLocaleDateString('es-ES');
+            
+            comentarios[peliculaActual].unshift({
+                nombre: nombre,
+                texto: texto,
+                calificacion: calificacion,
+                fecha: fechaFormateada
+            });
+            
+            document.getElementById('textoComentario').value = '';
+            document.getElementById('nombreComentario').value = '';
+            document.getElementById('calificacionComentario').value = '5';
+            
+            const alerta = document.getElementById('alerta-exito');
+            alerta.style.display = 'block';
+            setTimeout(() => {
+                alerta.style.display = 'none';
+            }, 3000);
+            
+            cargarComentarios(peliculaActual);
+        }
+
+        function cargarComentarios(indice) {
+            const listaComentarios = document.getElementById('listaComentarios');
+            
+            if (!comentarios[indice] || comentarios[indice].length === 0) {
+                listaComentarios.innerHTML = `
+                    <div class="estado-vacio">
+                        <i class="bi-emoji-frown"></i>
+                        <h5>No hay comentarios aún</h5>
+                        <h5> Sé el primero en compartir tu opinión sobre esta película </h5>
+                    </div>
+                `;
+                return;
+            }
+            
+            listaComentarios.innerHTML = `
+                <h5 class="mb-3">
+                    <i class="bi bi-chat-left-text"></i> 
+                    ${comentarios[indice].length} ${comentarios[indice].length === 1 ? 'Comentario' : 'Comentarios'}
+                </h5>
+                ${comentarios[indice].map((comentario, idx) => `
+                    <div class="comentario">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <strong class="fs-5">
+                                    <i class="bi bi-person-circle"></i> ${comentario.nombre}
+                                </strong>
+                                <div class="calificacion mt-2">
+                                    ${'⭐'.repeat(parseInt(comentario.calificacion))}
+                                    <span>${comentario.calificacion}/5</span>
+                                </div>
+                            </div>
+                            <small>
+                                <i class="bi bi-calendar3"></i> ${comentario.fecha}
+                            </small>
+                        </div>
+                        <p class="mb-0 mt-3">${comentario.texto}</p>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+       
+    </script>
+</body>
+</html>
